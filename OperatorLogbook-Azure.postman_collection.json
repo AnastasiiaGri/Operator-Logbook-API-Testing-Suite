@@ -1,0 +1,814 @@
+{
+	"info": {
+		"_postman_id": "7323321d-1384-49b7-a8aa-d88d39c7859b",
+		"name": "OperatorLogbook-Azure",
+		"description": "Web API for OperatorLogbook application.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetToken",
+			"item": [
+				{
+					"name": "_GetToken",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"try {",
+									"    const jsonData = JSON.parse(responseBody);",
+									"    const token = String(jsonData);",
+									"    pm.collectionVariables.set('Token', token);",
+									"}",
+									"catch(x) {",
+									"    console.error(x);",
+									"}",
+									"/* DO NOT MODIFY CODE LINES ABOVE! */",
+									"/* ----------------------------------------------------------------------------- */",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "sncadmin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "1",
+									"type": "string"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{AzServer}}/OptiRampWeb5/LogonService/api/Logon/GetToken",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"OptiRampWeb5",
+								"LogonService",
+								"api",
+								"Logon",
+								"GetToken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "isAlive",
+			"item": [
+				{
+					"name": "IsAlive",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/IsAlive",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"IsAlive"
+							]
+						},
+						"description": "This request can be used for connectivity check.\nReturn value is \"OK\", if response is good."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetFolders",
+			"item": [
+				{
+					"name": "_GetFolders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"array contains 14 objects\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.eql(14);  \r",
+									"});\r",
+									"\r",
+									"pm.test(\"first object uid is 8843\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    console.log('This is our jsonData', jsonData[0]);\r",
+									"    pm.expect(jsonData[0].uid).to.eql(8843);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"first object has id is 65\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].id).to.eql(65);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"SetLibType-I\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].name).to.eql(\"SetLibType-I\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"last object uid is 3568\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[13].uid).to.eql(3568);\r",
+									"});\r",
+									"pm.test(\"last object libCat is “Equipment“\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[13].libCat).to.eql(\"Equipment\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authToken",
+								"value": "{{Token}}",
+								"description": "OptiRamp Authentication Token\n",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetFolders?project={{ActiveProject}}",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"GetFolders"
+							],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{ActiveProject}}"
+								}
+							]
+						},
+						"description": "This request retrieves tree of VTS Folders."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetAPIVersion",
+			"item": [
+				{
+					"name": "GetAPIVersion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"string 9.0.0\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"9.0.0\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetAPIVersion",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"GetAPIVersion"
+							]
+						},
+						"description": "Returns Web API version.\nExample: 9.0.1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetActiveProject",
+			"item": [
+				{
+					"name": "_GetActiveProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code name is Optiramp Message\", function () {\r",
+									"    pm.response.to.have.status(\"Optiramp Message\");\r",
+									"});\r",
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "authToken",
+								"value": "{{plohoy-token}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetActiveProject",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"GetActiveProject"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetProjectState",
+			"item": [
+				{
+					"name": "_GetProjectState",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"JSON object\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    //console.log('This is our jsonData', jsonData.modificationTime);\r",
+									"    pm.expect(jsonData).to.eql({\"modificationTime\":\"2021-03-15T00:41:17.5532908\"});\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authToken",
+								"type": "text",
+								"value": "{{Token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetProjectState?project={{ActiveProject}}",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"GetProjectState"
+							],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{ActiveProject}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetRecords",
+			"item": [
+				{
+					"name": "_GetRecords",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"timeFrom\", '2020-07-01T00:00:00.000Z');\r",
+									"pm.variables.set(\"timeTo\", '2020-08-01T00:00:00.000Z');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "OptiRamp Authentication Token\n",
+								"key": "authToken",
+								"type": "text",
+								"value": "{{Token}}"
+							}
+						],
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetRecords?project={{ActiveProject}}&folderUID=0&timeFrom={{timeFrom}}&timeTo={{timeTo}}&where=&orderBy=&recursive=false&recent=false",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"GetRecords"
+							],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{ActiveProject}}"
+								},
+								{
+									"key": "folderUID",
+									"value": "0"
+								},
+								{
+									"key": "timeFrom",
+									"value": "{{timeFrom}}"
+								},
+								{
+									"key": "timeTo",
+									"value": "{{timeTo}}"
+								},
+								{
+									"key": "where",
+									"value": ""
+								},
+								{
+									"key": "orderBy",
+									"value": ""
+								},
+								{
+									"key": "recursive",
+									"value": "false"
+								},
+								{
+									"key": "recent",
+									"value": "false"
+								}
+							]
+						},
+						"description": "This request retrieves tree of VTS Folders."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetRecordCount",
+			"item": [
+				{
+					"name": "_GetRecordCount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "OptiRamp Authentication Token\n",
+								"key": "authToken",
+								"type": "text",
+								"value": "{{Token}}"
+							}
+						],
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetRecordCount?project={{ActiveProject}}&uids=1,2,3,4,445,453",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"GetRecordCount"
+							],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{ActiveProject}}"
+								},
+								{
+									"key": "uids",
+									"value": "1,2,3,4,445,453"
+								}
+							]
+						},
+						"description": "This request retrieves tree of VTS Folders."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetTimeSpan",
+			"item": [
+				{
+					"name": "_GetTimeSpan",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authToken",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetTimeSpan?project={{ActiveProject}}",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"GetTimeSpan"
+							],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{ActiveProject}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CreateRecords",
+			"item": [
+				{
+					"name": "_CreateRecord",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const now = new Date();\r",
+									"pm.variables.set(\"tsNow\", now.toISOString());\r",
+									"const v = pm.variables.get(\"tsNow\");\r",
+									"console.log('TS=' + v);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authToken",
+								"type": "text",
+								"value": "{{Token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"EventTime\": \"{{tsNow}}\",\r\n    \"Timestamp\": \"{{tsNow}}\",\r\n    \"Folder\": { \"UID\": 8843 },\r\n    \"Type\": 1,\r\n    \"Criticality\": 500,\r\n    \"Status\": 1,\r\n    \"Description\": \"Postman Test - CreateRecord\",\r\n    \"Audit\": false,\r\n    \"Host\": \"Postman-host\",\r\n    \"UserName\": \"Postman-user\",\r\n    \"FilterList\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/CreateRecord?project={{ActiveProject}}",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"CreateRecord"
+							],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{ActiveProject}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetValues",
+			"item": [
+				{
+					"name": "_GetValues",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authToken",
+								"type": "text",
+								"value": "{{Token}}"
+							}
+						],
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetValues?project={{ActiveProject}}&column=username",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"GetValues"
+							],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{ActiveProject}}"
+								},
+								{
+									"key": "column",
+									"value": "username"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UpdateRecord",
+			"item": [
+				{
+					"name": "_UpdateRecord",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const now = new Date();\r",
+									"pm.variables.set(\"tsNow\", now.toISOString());\r",
+									"const v = pm.variables.get(\"tsNow\");\r",
+									"console.log('TS=' + v);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "authToken",
+								"type": "text",
+								"value": "{{Token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"TaskID\": 81779,\r\n    \"EventTime\": \"{{tsNow}}\",\r\n    \"Timestamp\": \"{{tsNow}}\",\r\n    \"Folder\": { \"UID\": 9643 },\r\n    \"Type\": 3,\r\n    \"Criticality\": 500,\r\n    \"Status\": 3,\r\n    \"Description\": \"Postman Test - UpdateRecord\",\r\n    \"Audit\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/UpdateRecord?project={{ActiveProject}}",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"UpdateRecord"
+							],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{ActiveProject}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetFilters",
+			"item": [
+				{
+					"name": "_GetFilters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authToken",
+								"type": "text",
+								"value": "{{Token}}"
+							}
+						],
+						"url": {
+							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetFilters?project={{ActiveProject}}",
+							"protocol": "http",
+							"host": [
+								"{{AzServer}}"
+							],
+							"path": [
+								"Reroute",
+								"{{VtsServer}}",
+								"api",
+								"OperatorLogbook",
+								"GetFilters"
+							],
+							"query": [
+								{
+									"key": "project",
+									"value": "{{ActiveProject}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ActiveProject",
+			"value": "Area51"
+		},
+		{
+			"key": "Token",
+			"value": ""
+		}
+	]
+}
