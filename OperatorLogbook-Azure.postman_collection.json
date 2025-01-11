@@ -75,34 +75,6 @@
 			]
 		},
 		{
-			"name": "isAlive",
-			"item": [
-				{
-					"name": "IsAlive",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/IsAlive",
-							"protocol": "http",
-							"host": [
-								"{{AzServer}}"
-							],
-							"path": [
-								"Reroute",
-								"{{VtsServer}}",
-								"api",
-								"OperatorLogbook",
-								"IsAlive"
-							]
-						},
-						"description": "This request can be used for connectivity check.\nReturn value is \"OK\", if response is good."
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "GetFolders",
 			"item": [
 				{
@@ -496,56 +468,6 @@
 			]
 		},
 		{
-			"name": "GetTimeSpan",
-			"item": [
-				{
-					"name": "_GetTimeSpan",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "authToken",
-								"value": "{{Token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetTimeSpan?project={{ActiveProject}}",
-							"protocol": "http",
-							"host": [
-								"{{AzServer}}"
-							],
-							"path": [
-								"Reroute",
-								"{{VtsServer}}",
-								"api",
-								"OperatorLogbook",
-								"GetTimeSpan"
-							],
-							"query": [
-								{
-									"key": "project",
-									"value": "{{ActiveProject}}"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "CreateRecords",
 			"item": [
 				{
@@ -617,49 +539,6 @@
 			]
 		},
 		{
-			"name": "GetValues",
-			"item": [
-				{
-					"name": "_GetValues",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "authToken",
-								"type": "text",
-								"value": "{{Token}}"
-							}
-						],
-						"url": {
-							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetValues?project={{ActiveProject}}&column=username",
-							"protocol": "http",
-							"host": [
-								"{{AzServer}}"
-							],
-							"path": [
-								"Reroute",
-								"{{VtsServer}}",
-								"api",
-								"OperatorLogbook",
-								"GetValues"
-							],
-							"query": [
-								{
-									"key": "project",
-									"value": "{{ActiveProject}}"
-								},
-								{
-									"key": "column",
-									"value": "username"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "UpdateRecord",
 			"item": [
 				{
@@ -717,56 +596,6 @@
 								"api",
 								"OperatorLogbook",
 								"UpdateRecord"
-							],
-							"query": [
-								{
-									"key": "project",
-									"value": "{{ActiveProject}}"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "GetFilters",
-			"item": [
-				{
-					"name": "_GetFilters",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "authToken",
-								"type": "text",
-								"value": "{{Token}}"
-							}
-						],
-						"url": {
-							"raw": "http://{{AzServer}}/Reroute/{{VtsServer}}/api/OperatorLogbook/GetFilters?project={{ActiveProject}}",
-							"protocol": "http",
-							"host": [
-								"{{AzServer}}"
-							],
-							"path": [
-								"Reroute",
-								"{{VtsServer}}",
-								"api",
-								"OperatorLogbook",
-								"GetFilters"
 							],
 							"query": [
 								{
